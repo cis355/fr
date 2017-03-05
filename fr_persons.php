@@ -37,7 +37,7 @@ if(!isset($_SESSION["fr_person_id"])){ // if "user" not set,
 			<table class="table table-striped table-bordered" style="background-color: lightgrey !important";>
 				<thead>
 					<tr>
-						<th>Name (Title)</th>
+						<th>Name (Title) (Assignments)</th>
 						<th>Email</th>
 						<th>Mobile</th>
 						<th>Action</th>
@@ -47,10 +47,13 @@ if(!isset($_SESSION["fr_person_id"])){ // if "user" not set,
 					<?php 
 						include '../database/database.php';
 						$pdo = Database::connect();
-						$sql = 'SELECT * FROM fr_persons ORDER BY lname ASC, fname ASC';
+						$sql = 'SELECT `fr_persons`.*, COUNT(`fr_assignments`.assign_per_id) AS countAssigns FROM `fr_persons` LEFT OUTER JOIN `fr_assignments` ON (`fr_persons`.id=`fr_assignments`.assign_per_id) GROUP BY `fr_persons`.id ORDER BY `fr_persons`.lname ASC, `fr_persons`.fname ASC';
 						foreach ($pdo->query($sql) as $row) {
 							echo '<tr>';
-							echo '<td>'. trim($row['lname']) . ', ' . trim($row['fname']) . ' (' . substr($row['title'], 0, 1) . ')'.  '</td>';
+							if ($row['countAssigns'] == 0)
+								echo '<td>UNASSIGNED - '. trim($row['lname']) . ', ' . trim($row['fname']) . ' (' . substr($row['title'], 0, 1) . ')'. '</td>';
+							else
+								echo '<td>'. trim($row['lname']) . ', ' . trim($row['fname']) . ' (' . substr($row['title'], 0, 1) . ')'. '</td>';
 							echo '<td>'. $row['email'] . '</td>';
 							echo '<td>'. $row['mobile'] . '</td>';
 							echo '<td width=250>';
@@ -59,7 +62,7 @@ if(!isset($_SESSION["fr_person_id"])){ // if "user" not set,
 							echo '<a class="btn btn-success" href="fr_per_update.php?id='.$row['id'].'">Update</a>';
 							echo '&nbsp;';
 							echo '<a class="btn btn-danger" href="fr_per_delete.php?id='.$row['id'].'">Delete</a>';
-							if($_SESSION["fr_person_id"] == $row['id']) echo " &nbsp;&nbsp;Me!";
+							if($_SESSION["fr_person_id"] == $row['id']) echo " &nbsp;&nbsp;Me";
 							echo '</td>';
 							echo '</tr>';
 						}
