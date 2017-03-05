@@ -158,13 +158,13 @@ if ( !empty($_POST)) { // if not first time through
 					</div>
 				</div>
 				
-				<div class="control-group <?php echo !empty($titleError)?'error':'';?>">
+				<div class="control-group">
 					<label class="control-label">Title</label>
 					<div class="controls">
-						<input name="title" type="text"  placeholder="Title" value="<?php echo !empty($title)?$title:'';?>">
-						<?php if (!empty($titleError)): ?>
-							<span class="help-inline"><?php echo $titleError;?></span>
-						<?php endif;?>
+						<select class="form-control" name="title">
+							<option value="Volunteer" selected>Volunteer</option>
+							<option value="Administrator" >Administrator</option>
+						</select>
 					</div>
 				</div>
 			  

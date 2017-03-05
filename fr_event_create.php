@@ -21,14 +21,12 @@ if ( !empty($_POST)) { // if not first time through
 	$timeError = null;
 	$locationError = null;
 	$descriptionError = null;
-	$personError = null; 
 	
 	// initialize $_POST variables
 	$date = $_POST['event_date'];
 	$time = $_POST['event_time'];
 	$location = $_POST['event_location'];
-	$description = $_POST['event_description'];	
-	$person = $_POST['person'];		
+	$description = $_POST['event_description'];		
 	
 	// validate user input
 	$valid = true;
@@ -48,15 +46,14 @@ if ( !empty($_POST)) { // if not first time through
 		$descriptionError = 'Please enter Description';
 		$valid = false;
 	}
-	// don't require there to be a person in charge
 
 	// insert data
 	if ($valid) {
 		$pdo = Database::connect();
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$sql = "INSERT INTO fr_events (event_date, event_time, event_location, event_description, person_in_charge) values(?, ?, ?, ?, ?)";
+		$sql = "INSERT INTO fr_events (event_date, event_time, event_location, event_description) values(?, ?, ?, ?, ?)";
 		$q = $pdo->prepare($sql);
-		$q->execute(array($date,$time,$location,$description,$person));
+		$q->execute(array($date,$time,$location,$description));
 		Database::disconnect();
 		header("Location: fr_events.php");
 	}
@@ -121,22 +118,6 @@ if ( !empty($_POST)) { // if not first time through
 						<?php endif;?>
 					</div>
 				</div>
-				
-				<div class="control-group">
-					<label class="control-label">Person in Charge</label>
-					<div class="controls">
-						<?php
-							$pdo = Database::connect();
-							$sql = 'SELECT * FROM fr_persons ORDER BY lname ASC, fname ASC';
-							echo "<select class='form-control' name='person' id='person_id'>";
-							foreach ($pdo->query($sql) as $row) {
-								echo "<option value='" . $row['id'] . " '> " . $row['lname'] . ', ' .$row['fname'] . "</option>";
-							}
-							echo "</select>";
-							Database::disconnect();
-						?>
-					</div>	<!-- end div: class="controls" -->
-				</div> <!-- end div class="control-group" -->
 				
 				<div class="form-actions">
 					<button type="submit" class="btn btn-success">Create</button>

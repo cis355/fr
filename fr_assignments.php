@@ -33,11 +33,11 @@ if(!isset($_SESSION["fr_person_id"])){ // if "user" not set,
 		
 		<div class="row">
 			<p>
-				<a href="fr_assign_create.php" class="btn btn-primary">Add New Assignment</a>
+				<a href="fr_assign_create.php" class="btn btn-primary">Add Assignment</a>
 				<a href="logout.php" class="btn btn-warning">Logout</a> &nbsp;&nbsp;&nbsp;
 				<a href="fr_persons.php">Volunteers</a> &nbsp;
 				<a href="fr_events.php">Events</a> &nbsp;
-				<a href="fr_assignments.php">Assignments</a>
+				<a href="fr_assignments.php">Assignments</a> &nbsp; &nbsp;
 			</p>
 			
 			<table class="table table-striped table-bordered">
@@ -72,11 +72,11 @@ if(!isset($_SESSION["fr_person_id"])){ // if "user" not set,
 						echo '<td width=250>';
 						# use $row[0] because there are 3 fields called "id"
 						echo '<a class="btn" href="fr_assign_read.php?id='.$row[0].'">Details</a>';
-						echo '&nbsp;';
-						echo '<a class="btn btn-success" href="fr_assign_update.php?id='.$row[0].'">Update</a>';
-						echo '&nbsp;';
-						echo '<a class="btn btn-danger" href="fr_assign_delete.php?id='.$row[0].'">Delete</a>';
-						if($_SESSION["fr_person_id"] == $row['assign_per_id']) echo " &nbsp;&nbsp;Me!";
+						if ($_SESSION['fr_person_title']=='Administrator' )
+							echo '&nbsp;<a class="btn btn-success" href="fr_assign_update.php?id='.$row[0].'">Update</a>';
+						if ($_SESSION['fr_person_title']=='Administrator' )
+							echo '&nbsp;<a class="btn btn-danger" href="fr_assign_delete.php?id='.$row[0].'">Delete</a>';
+						if($_SESSION["fr_person_id"] == $row['assign_per_id']) 		echo " &nbsp;&nbsp;Me";
 						echo '</td>';
 						echo '</tr>';
 					}

@@ -75,7 +75,9 @@ if ( !empty($_POST)) { // if $_POST filled then process the form
 				</div> <!-- end div class="control-group" -->
 
 				<div class="form-actions">
-					<button type="submit" class="btn btn-success">Login</button>
+					<button type="submit" class="btn btn-success">Sign in</button>
+					&nbsp; &nbsp;
+					<a href="register.php">Sign up (Register)</a>
 				</div>
 				
 			</form>

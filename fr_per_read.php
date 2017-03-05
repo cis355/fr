@@ -13,6 +13,7 @@ if(!isset($_SESSION["fr_person_id"])){ // if "user" not set,
 }
 
 require '../database/database.php';
+require 'functions.php';
 
 $id = $_GET['id'];
 
@@ -73,6 +74,13 @@ Database::disconnect();
 						</label>
 					</div>     
 					
+					<label class="control-label">Title</label>
+					<div class="controls">
+						<label class="checkbox">
+							<?php echo $data['title'];?>
+						</label>
+					</div>   
+					
 					<!-- password omitted on Read/View -->
 					
 					<div class="form-actions">
@@ -94,6 +102,21 @@ Database::disconnect();
 					?><!-- converts to base 64 due to the need to read the binary files code and display img -->
 					</div>
 				</div>
+				
+				<div class="row">
+					<h4>Events for which this Volunteer has been assigned</h4>
+				</div>
+				
+				<?php
+					$pdo = Database::connect();
+					$sql = "SELECT * FROM fr_assignments, fr_events WHERE assign_event_id = fr_events.id AND assign_per_id = " . $id . " ORDER BY event_date ASC, event_time ASC";
+					$countrows = 0;
+					foreach ($pdo->query($sql) as $row) {
+						echo Functions::dayMonthDate($row['event_date']) . ': ' . Functions::timeAmPm($row['event_time']) . ' - ' . $row['event_location'] . ' - ' . $row['event_description'] . '<br />';
+						$countrows++;
+					}
+					if ($countrows == 0) echo 'none.';
+				?>
 				
 			</div>  <!-- end div: class="form-horizontal" -->
 

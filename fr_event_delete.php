@@ -34,19 +34,10 @@ if ( !empty($_POST)) { // if user clicks "yes" (sure to delete), delete record
 else { // otherwise, pre-populate fields to show data to be deleted
 	$pdo = Database::connect();
 	$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	
-	# get event details
 	$sql = "SELECT * FROM fr_events where id = ?";
 	$q = $pdo->prepare($sql);
 	$q->execute(array($id));
 	$data = $q->fetch(PDO::FETCH_ASSOC);
-
-	# get person details
-	$sql = "SELECT * FROM fr_persons where id = ?";
-	$q = $pdo->prepare($sql);
-	$q->execute(array($data['person_in_charge']));
-	$perdata = $q->fetch(PDO::FETCH_ASSOC);
-
 	Database::disconnect();
 }
 ?>
@@ -117,14 +108,20 @@ else { // otherwise, pre-populate fields to show data to be deleted
 					</div>
 				</div>
 				
-				<div class="control-group">
-					<label class="control-label">Person in Charge</label>
-					<div class="controls">
-						<label class="checkbox">
-							<?php echo $perdata['lname'] . ', ' . $perdata['fname'] ;?>
-						</label>
-					</div>
-				</div>
+			<div class="row">
+				<h4>Volunteers Assigned to This Event</h4>
+			</div>
+			
+			<?php
+				$pdo = Database::connect();
+				$sql = "SELECT * FROM fr_assignments, fr_persons WHERE assign_per_id = fr_persons.id AND assign_event_id = " . $data['id'] . ' ORDER BY lname ASC, fname ASC';
+				$countrows = 0;
+				foreach ($pdo->query($sql) as $row) {
+					echo $row['lname'] . ', ' . $row['fname'] . ' - ' . $row['mobile'] . '<br />';
+					$countrows++;
+				}
+				if ($countrows == 0) echo 'none.';
+			?>
 			
 			</div> <!-- end div: class="form-horizontal" -->
 			

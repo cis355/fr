@@ -29,7 +29,7 @@ if(!isset($_SESSION["fr_person_id"])){ // if "user" not set,
 		
 		<div class="row">
 			<p>
-				<a href="fr_event_create.php" class="btn btn-primary">Add New Event</a>
+				<a href="fr_event_create.php" class="btn btn-primary">Add Event</a>
 				<a href="logout.php" class="btn btn-warning">Logout</a> &nbsp;&nbsp;&nbsp;
 				<a href="fr_persons.php">Volunteers</a> &nbsp;
 				<a href="fr_events.php">Events</a> &nbsp;
@@ -51,23 +51,25 @@ if(!isset($_SESSION["fr_person_id"])){ // if "user" not set,
 						include '../database/database.php';
 						include 'functions.php';
 						$pdo = Database::connect();
-						$sql = 'SELECT `fr_events`.*, COUNT(`fr_assignments`.assign_event_id) AS countAssigns FROM `fr_events` LEFT OUTER JOIN `fr_assignments` ON (`fr_events`.id=`fr_assignments`.assign_event_id) GROUP BY `fr_events`.id ORDER BY `fr_events`.event_date ASC, `fr_events`.event_time ASC';
+						$sql = 'SELECT `fr_events`.*, SUM(case when assign_per_id ='. $_SESSION['fr_person_id'] .' then 1 else 0 end) AS sumAssigns, COUNT(`fr_assignments`.assign_event_id) AS countAssigns FROM `fr_events` LEFT OUTER JOIN `fr_assignments` ON (`fr_events`.id=`fr_assignments`.assign_event_id) GROUP BY `fr_events`.id ORDER BY `fr_events`.event_date ASC, `fr_events`.event_time ASC';
 						foreach ($pdo->query($sql) as $row) {
 							echo '<tr>';
 							echo '<td>'. Functions::dayMonthDate($row['event_date']) . '</td>';
 							echo '<td>'. Functions::timeAmPm($row['event_time']) . '</td>';
 							echo '<td>'. $row['event_location'] . '</td>';
 							if ($row['countAssigns']==0)
-								echo '<td>UNASSIGNED - '. $row['event_description'] . '</td>';
+								echo '<td>UNSTAFFED - '. $row['event_description'] . '</td>';
 							else
 								echo '<td>'. $row['event_description'] . '</td>';
 							echo '<td width=250>';
-							echo '<a class="btn" href="fr_event_read.php?id='.$row['id'].'">Details</a>';
-							echo '&nbsp;';
-							echo '<a class="btn btn-success" href="fr_event_update.php?id='.$row['id'].'">Update</a>';
-							echo '&nbsp;';
-							echo '<a class="btn btn-danger" href="fr_event_delete.php?id='.$row['id'].'">Delete</a>';
-							if($_SESSION["fr_person_id"] == $row['person_in_charge']) echo " &nbsp;&nbsp;Me";
+							echo '<a class="btn" href="fr_event_read.php?id='.$row['id'].'">Details</a> &nbsp;';
+							if ($_SESSION['fr_person_title']=='Administrator' )
+								echo '<a class="btn btn-success" href="fr_event_update.php?id='.$row['id'].'">Update</a>&nbsp;';
+							if ($_SESSION['fr_person_title']=='Administrator' 
+								&& $row['countAssigns']==0)
+								echo '<a class="btn btn-danger" href="fr_event_delete.php?id='.$row['id'].'">Delete</a>';
+							if($row['sumAssigns']==1) 
+								echo " &nbsp;&nbsp;Me";
 							echo '</td>';
 							echo '</tr>';
 						}
