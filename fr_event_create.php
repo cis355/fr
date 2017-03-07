@@ -51,7 +51,7 @@ if ( !empty($_POST)) { // if not first time through
 	if ($valid) {
 		$pdo = Database::connect();
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$sql = "INSERT INTO fr_events (event_date, event_time, event_location, event_description) values(?, ?, ?, ?, ?)";
+		$sql = "INSERT INTO fr_events (event_date, event_time, event_location, event_description) values(?, ?, ?, ?)";
 		$q = $pdo->prepare($sql);
 		$q->execute(array($date,$time,$location,$description));
 		Database::disconnect();
@@ -74,7 +74,7 @@ if ( !empty($_POST)) { // if not first time through
 		<div class="span10 offset1">
 		
 			<div class="row">
-				<h3>Add New Event</h3>
+				<h3>Add New Shift</h3>
 			</div>
 	
 			<form class="form-horizontal" action="fr_event_create.php" method="post">

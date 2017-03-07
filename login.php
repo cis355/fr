@@ -28,9 +28,10 @@ if ( !empty($_POST)) { // if $_POST filled then process the form
 	if($data) { // if successful login set session variables
 		echo "success!";
 		$_SESSION['fr_person_id'] = $data['id'];
+		$sessionid = $data['id'];
 		$_SESSION['fr_person_title'] = $data['title'];
 		Database::disconnect();
-		header("Location: fr_assignments.php");
+		header("Location: fr_assignments.php?id=$sessionid ");
 	}
 	else { // otherwise go to login error page
 		Database::disconnect();
@@ -70,14 +71,14 @@ if ( !empty($_POST)) { // if $_POST filled then process the form
 				<div class="control-group">
 					<label class="control-label">Password</label>
 					<div class="controls">
-						<input name="password" type="password"  placeholder="mYp455w0rDiSharDt0gue55" required>
-					</div>	<!-- end div: class="controls" -->
-				</div> <!-- end div class="control-group" -->
+						<input name="password" type="password" placeholder="robot" required>
+					</div>	
+				</div> 
 
 				<div class="form-actions">
 					<button type="submit" class="btn btn-success">Sign in</button>
 					&nbsp; &nbsp;
-					<a href="register.php">Sign up (Register)</a>
+					<a class="btn btn-primary" href="fr_per_create2.php">Join</a>
 				</div>
 				
 			</form>
@@ -87,6 +88,8 @@ if ( !empty($_POST)) { // if $_POST filled then process the form
     </div> <!-- end div: class="container" -->
 
   </body>
+  
 </html>
 	
+
 	

@@ -11,6 +11,7 @@ if(!isset($_SESSION["fr_person_id"])){ // if "user" not set,
 	header('Location: login.php');     // go to login page
 	exit;
 }
+$sessionid = $_SESSION['fr_person_id'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,15 +27,19 @@ if(!isset($_SESSION["fr_person_id"])){ // if "user" not set,
 			<h3>Volunteers</h3>
 		</div>
 		<div class="row">
+			<p>Each shift is 4 hours.</p>
 			<p>
-				<a href="fr_per_create.php" class="btn btn-primary">Add Volunteer</a>
+				<?php if($_SESSION['fr_person_title']=='Administrator')
+					echo '<a href="fr_per_create.php" class="btn btn-primary">Add Volunteer</a>';
+				?>
 				<a href="logout.php" class="btn btn-warning">Logout</a> &nbsp;&nbsp;&nbsp;
 				<a href="fr_persons.php">Volunteers</a> &nbsp;
-				<a href="fr_events.php">Events</a> &nbsp;
-				<a href="fr_assignments.php">Assignments</a>
+				<a href="fr_events.php">Shifts</a> &nbsp;
+				<a href="fr_assignments.php">AllShifts</a>&nbsp;
+				<a href="fr_assignments.php?id=<?php echo $sessionid; ?>">MyShifts</a>&nbsp;
 			</p>
 				
-			<table class="table table-striped table-bordered" style="background-color: lightgrey !important";>
+			<table class="table table-striped table-bordered" style="background-color: lightgrey !important">
 				<thead>
 					<tr>
 						<th>Name</th>
@@ -51,7 +56,7 @@ if(!isset($_SESSION["fr_person_id"])){ // if "user" not set,
 						foreach ($pdo->query($sql) as $row) {
 							echo '<tr>';
 							if ($row['countAssigns'] == 0)
-								echo '<td>UNASSIGNED - '. trim($row['lname']) . ', ' . trim($row['fname']) . ' (' . substr($row['title'], 0, 1) . ')'. '</td>';
+								echo '<td>'. trim($row['lname']) . ', ' . trim($row['fname']) . ' (' . substr($row['title'], 0, 1) . ')'. ' - UNASSIGNED</td>';
 							else
 								echo '<td>'. trim($row['lname']) . ', ' . trim($row['fname']) . ' (' . substr($row['title'], 0, 1) . ')'. '</td>';
 							echo '<td>'. $row['email'] . '</td>';
@@ -59,9 +64,9 @@ if(!isset($_SESSION["fr_person_id"])){ // if "user" not set,
 							echo '<td width=250>';
 							# always allow read
 							echo '<a class="btn" href="fr_per_read.php?id='.$row['id'].'">Details</a>&nbsp;';
-							# only admins can update
-							if ($_SESSION['fr_person_title']=='Administrator')
-								# || $_SESSION['fr_person_id']==$row['id'])
+							# person can update own record
+							if ($_SESSION['fr_person_title']=='Administrator'
+								|| $_SESSION['fr_person_id']==$row['id'])
 								echo '<a class="btn btn-success" href="fr_per_update.php?id='.$row['id'].'">Update</a>&nbsp;';
 							# only admins can delete
 							if ($_SESSION['fr_person_title']=='Administrator' 

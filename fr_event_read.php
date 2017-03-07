@@ -40,7 +40,7 @@ Database::disconnect();
 		<div class="span10 offset1">
 		
 			<div class="row">
-				<h3>Event Details</h3>
+				<h3>Shift Details</h3>
 			</div>
 			
 			<div class="form-horizontal" >
@@ -82,11 +82,12 @@ Database::disconnect();
 				</div>
 				
 				<div class="form-actions">
+					<a class="btn btn-primary" href="fr_assign_create.php?event_id=<?php echo $id; ?>">Volunteer for this shift</a>
 					<a class="btn" href="fr_events.php">Back</a>
 				</div>
 				
 			<div class="row">
-				<h4>Volunteers Assigned to This Event</h4>
+				<h4>Volunteers Assigned to This Shift</h4>
 			</div>
 			
 			<?php

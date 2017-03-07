@@ -3,7 +3,7 @@
  * filename    : fr_assignments.php
  * author      : George Corser, gcorser@gmail.com
  * description : This program displays a list of assignments (table: fr_assignments)
- * definition  : An assignment is a task for a volunteer at an event. 
+ * definition  : An assignment is a task for a volunteer at an event (shift). 
  * ---------------------------------------------------------------------------
  */
 
@@ -13,6 +13,8 @@ if(!isset($_SESSION["fr_person_id"])){ // if "user" not set,
 	header('Location: login.php');   // go to login page
 	exit;
 }
+$id = $_GET['id']; // for MyAssignments
+$sessionid = $_SESSION['fr_person_id'];
 
 ?>
 
@@ -28,19 +30,30 @@ if(!isset($_SESSION["fr_person_id"])){ // if "user" not set,
     <div class="container">
 	
 		<div class="row">
-			<h3>Assignments</h3>
+			<h3><?php if($id) echo 'My'; ?>Shifts</h3>
 		</div>
 		
 		<div class="row">
+			<p>Each shift is 4 hours.</p>
 			<p>
-				<a href="fr_assign_create.php" class="btn btn-primary">Add Assignment</a>
+				<?php if($_SESSION['fr_person_title']=='Administrator')
+					echo '<a href="fr_assign_create.php" class="btn btn-primary">Add Assignment</a>';
+				?>
 				<a href="logout.php" class="btn btn-warning">Logout</a> &nbsp;&nbsp;&nbsp;
-				<a href="fr_persons.php">Volunteers</a> &nbsp;
-				<a href="fr_events.php">Events</a> &nbsp;
-				<a href="fr_assignments.php">Assignments</a> &nbsp; &nbsp;
+				<?php if($_SESSION['fr_person_title']=='Administrator')
+					echo '<a href="fr_persons.php">Volunteers</a> &nbsp;';
+				?>
+				<a href="fr_events.php">Shifts</a> &nbsp;
+				<?php if($_SESSION['fr_person_title']=='Administrator')
+					echo '<a href="fr_assignments.php">AllShifts</a>&nbsp;';
+				?>
+				<a href="fr_assignments.php?id=<?php echo $sessionid; ?>">MyShifts</a>&nbsp;
+				<?php if($_SESSION['fr_person_title']=='Volunteer')
+					echo '<a href="fr_events.php" class="btn btn-primary">Volunteer</a>';
+				?>
 			</p>
 			
-			<table class="table table-striped table-bordered">
+			<table class="table table-striped table-bordered" style="background-color: lightgrey !important">
 				<thead>
 					<tr>
 						<th>Date</th>
@@ -56,11 +69,18 @@ if(!isset($_SESSION["fr_person_id"])){ // if "user" not set,
 					include '../database/database.php';
 					include 'functions.php';
 					$pdo = Database::connect();
-
-					$sql = 'SELECT * FROM fr_assignments 
-					LEFT JOIN fr_persons ON fr_persons.id = fr_assignments.assign_per_id 
-					LEFT JOIN fr_events ON fr_events.id = fr_assignments.assign_event_id
-					ORDER BY event_date ASC, event_time ASC, lname ASC, lname ASC;';
+					
+					if($id) 
+						$sql = "SELECT * FROM fr_assignments 
+						LEFT JOIN fr_persons ON fr_persons.id = fr_assignments.assign_per_id 
+						LEFT JOIN fr_events ON fr_events.id = fr_assignments.assign_event_id
+						WHERE fr_persons.id = $id 
+						ORDER BY event_date ASC, event_time ASC, lname ASC, lname ASC;";
+					else
+						$sql = "SELECT * FROM fr_assignments 
+						LEFT JOIN fr_persons ON fr_persons.id = fr_assignments.assign_per_id 
+						LEFT JOIN fr_events ON fr_events.id = fr_assignments.assign_event_id
+						ORDER BY event_date ASC, event_time ASC, lname ASC, lname ASC;";
 
 					foreach ($pdo->query($sql) as $row) {
 						echo '<tr>';
@@ -74,7 +94,8 @@ if(!isset($_SESSION["fr_person_id"])){ // if "user" not set,
 						echo '<a class="btn" href="fr_assign_read.php?id='.$row[0].'">Details</a>';
 						if ($_SESSION['fr_person_title']=='Administrator' )
 							echo '&nbsp;<a class="btn btn-success" href="fr_assign_update.php?id='.$row[0].'">Update</a>';
-						if ($_SESSION['fr_person_title']=='Administrator' )
+						if ($_SESSION['fr_person_title']=='Administrator' 
+							|| $_SESSION['fr_person_id']==$row['assign_per_id'])
 							echo '&nbsp;<a class="btn btn-danger" href="fr_assign_delete.php?id='.$row[0].'">Delete</a>';
 						if($_SESSION["fr_person_id"] == $row['assign_per_id']) 		echo " &nbsp;&nbsp;Me";
 						echo '</td>';

@@ -1,24 +1,21 @@
 <?php 
 /* ---------------------------------------------------------------------------
- * filename    : fr_per_update.php
+ * filename    : fr_per_create2.php
  * author      : George Corser, gcorser@gmail.com
- * description : This program updates one volunteer's details (table: fr_persons)
+ * description : This program adds/inserts a new volunteer (table: fr_persons)
  * ---------------------------------------------------------------------------
  */
 session_start();
-if(!isset($_SESSION["fr_person_id"])){ // if "user" not set,
-	session_destroy();
-	header('Location: login.php');     // go to login page
-	exit;
-}
+// session_start();
+// if(!isset($_SESSION["fr_person_id"])){ // if "user" not set,
+	// session_destroy();
+	// header('Location: login.php');     // go to login page
+	// exit;
+// }
 	
 require '../database/database.php';
 
-$id = $_GET['id'];
-
-if ( !empty($_POST)) { // if $_POST filled then process the form
-
-	# initialize/validate (same as file: fr_per_create.php)
+if ( !empty($_POST)) { // if not first time through
 
 	// initialize user input validation variables
 	$fnameError = null;
@@ -76,45 +73,33 @@ if ( !empty($_POST)) { // if $_POST filled then process the form
 		$valid = false;
 	}
 	// restrict file types for upload
-	
-	if ($valid) { // if valid user input update the database
-	
-		if($fileSize > 0) { // if file was updated, update all fields
-			$pdo = Database::connect();
-			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			$sql = "UPDATE fr_persons  set fname = ?, lname = ?, email = ?, mobile = ?, password = ?, title = ?, filename = ?,filesize = ?,filetype = ?,filecontent = ? WHERE id = ?";
-			$q = $pdo->prepare($sql);
-			$q->execute(array($fname, $lname, $email, $mobile, $password, $title, $fileName,$fileSize,$fileType,$content, $id));
-			Database::disconnect();
-			header("Location: fr_persons.php");
-		}
-		else { // otherwise, update all fields EXCEPT file fields
-			$pdo = Database::connect();
-			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			$sql = "UPDATE fr_persons  set fname = ?, lname = ?, email = ?, mobile = ?, password = ?, title = ? WHERE id = ?";
-			$q = $pdo->prepare($sql);
-			$q->execute(array($fname, $lname, $email, $mobile, $password, $title,  $id));
-			Database::disconnect();
-			header("Location: fr_persons.php");
-		}
+
+	// insert data
+	if ($valid) 
+	{
+		$pdo = Database::connect();
+		
+		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$sql = "INSERT INTO fr_persons (fname,lname,email,mobile,password,title,
+		filename,filesize,filetype,filecontent) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		$q = $pdo->prepare($sql);
+		$q->execute(array($fname,$lname,$email,$mobile,$password,$title,
+		$fileName,$fileSize,$fileType,$content));
+		
+		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$sql = "SELECT * FROM fr_persons WHERE email = ? AND password = ? LIMIT 1";
+		$q = $pdo->prepare($sql);
+		$q->execute(array($email,$password));
+		$data = $q->fetch(PDO::FETCH_ASSOC);
+		
+		$_SESSION['fr_person_id'] = $data['id'];
+		$_SESSION['fr_person_title'] = $data['title'];
+		
+		Database::disconnect();
+		header("Location: fr_events.php");
 	}
-} else { // if $_POST NOT filled then pre-populate the form
-	$pdo = Database::connect();
-	$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	$sql = "SELECT * FROM fr_persons where id = ?";
-	$q = $pdo->prepare($sql);
-	$q->execute(array($id));
-	$data = $q->fetch(PDO::FETCH_ASSOC);
-	$fname = $data['fname'];
-	$lname = $data['lname'];
-	$email = $data['email'];
-	$mobile = $data['mobile'];
-	$password = $data['password'];
-	$title =  $data['title'];
-	Database::disconnect();
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -130,12 +115,10 @@ if ( !empty($_POST)) { // if $_POST filled then process the form
 		<div class="span10 offset1">
 		
 			<div class="row">
-				<h3>Update Volunteer Details</h3>
+				<h3>Add New Volunteer</h3>
 			</div>
 	
-			<form class="form-horizontal" action="fr_per_update.php?id=<?php echo $id?>" method="post" enctype="multipart/form-data">
-			
-				<!-- Form elements (same as file: fr_per_create.php) -->
+			<form class="form-horizontal" action="fr_per_create2.php" method="post" enctype="multipart/form-data">
 
 				<div class="control-group <?php echo !empty($fnameError)?'error':'';?>">
 					<label class="control-label">First Name</label>
@@ -180,7 +163,7 @@ if ( !empty($_POST)) { // if $_POST filled then process the form
 				<div class="control-group <?php echo !empty($passwordError)?'error':'';?>">
 					<label class="control-label">Password</label>
 					<div class="controls">
-						<input name="password" type="text"  placeholder="Password" value="<?php echo !empty($password)?$password:'';?>">
+						<input name="password" type="text"  placeholder="robot" value="<?php echo !empty($password)?$password:'';?>">
 						<?php if (!empty($passwordError)): ?>
 							<span class="help-inline"><?php echo $passwordError;?></span>
 						<?php endif;?>
@@ -191,15 +174,8 @@ if ( !empty($_POST)) { // if $_POST filled then process the form
 					<label class="control-label">Title</label>
 					<div class="controls">
 						<select class="form-control" name="title">
-							<?php 
-							# editor is a volunteer only allow volunteer option
-							if (0==strcmp($_SESSION['fr_person_title'],'Volunteer')) echo '<option selected value="Volunteer" >Volunteer</option>';
-							else if($title==Volunteer) echo 
-							'<option selected value="Volunteer" >Volunteer</option><option value="Administrator" >Administrator</option>';
-							else echo
-							'<option value="Volunteer">Volunteer</option>
-							<option selected value="Administrator" >Administrator</option>';
-							?>
+							<option value="Volunteer" selected>Volunteer</option>
+							<!-- <option value="Administrator" >Administrator</option> -->
 						</select>
 					</div>
 				</div>
@@ -213,29 +189,14 @@ if ( !empty($_POST)) { // if $_POST filled then process the form
 				</div>
 			  
 				<div class="form-actions">
-					<button type="submit" class="btn btn-success">Update</button>
-					<a class="btn" href="fr_persons.php">Back</a>
+					<button type="submit" class="btn btn-success">Confirm</button>
+					<a class="btn" href="fr_events.php">Back</a>
 				</div>
 				
 			</form>
 			
-				<!-- Display photo, if any --> 
-
-				<div class='control-group col-md-6'>
-					<div class="controls ">
-					<?php 
-					if ($data['filesize'] > 0) 
-						echo '<img  height=5%; width=15%; src="data:image/jpeg;base64,' . 
-							base64_encode( $data['filecontent'] ) . '" />'; 
-					else 
-						echo 'No photo on file.';
-					?><!-- converts to base 64 due to the need to read the binary files code and display img -->
-					</div>
-				</div>
+		</div> <!-- end div: class="span10 offset1" -->
 				
-		</div><!-- end div: class="span10 offset1" -->
-		
     </div> <!-- end div: class="container" -->
-	
-</body>
+  </body>
 </html>

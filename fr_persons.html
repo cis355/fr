@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link   href="css/bootstrap.min.css" rel="stylesheet">
+    <script src="js/bootstrap.min.js"></script>
+    <script src="fr_vars.js"></script>
+    <script>
+        function retrievePage() {
+            xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (xhttp.readyState == 4 && xhttp.status == 200) {
+                    document.getElementById("body").innerHTML = xhttp.responseText;
+                }
+            };
+            
+            xhttp.open("GET", URL + "fr_persons.php", true);
+            xhttp.send();
+        }
+    </script>
+</head>
+
+<body onload="retrievePage();">
+    <div id="body"></div>    
+</body>
+</html>

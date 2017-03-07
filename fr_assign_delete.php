@@ -114,15 +114,6 @@ else { // otherwise, pre-populate fields to show data to be deleted
 						</label>
 					</div>
 				</div>
-				
-				<div class="control-group">
-					<label class="control-label">Comments/Task</label>
-					<div class="controls">
-						<label class="checkbox">
-							<?php echo $data['assign_comments'];?>
-						</label>
-					</div>
-				</div>
 			
 			</div> <!-- end div: class="form-horizontal" -->
 			

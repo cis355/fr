@@ -87,15 +87,6 @@ Database::disconnect();
 					</div>
 				</div>
 				
-				<div class="control-group">
-					<label class="control-label">Comments/Task</label>
-					<div class="controls">
-						<label class="checkbox">
-							<?php echo $data['assign_comments'];?>
-						</label>
-					</div>
-				</div>
-				
 				<div class="form-actions">
 					<a class="btn" href="fr_assignments.php">Back</a>
 				</div>

@@ -11,6 +11,7 @@ if(!isset($_SESSION["fr_person_id"])){ // if "user" not set,
 	header('Location: login.php');     // go to login page
 	exit;
 }
+$sessionid = $_SESSION['fr_person_id'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,19 +25,27 @@ if(!isset($_SESSION["fr_person_id"])){ // if "user" not set,
     <div class="container">
 	
 		<div class="row">
-			<h3>Events</h3>
+			<h3>Shifts</h3>
 		</div>
 		
 		<div class="row">
+			<p>Each shift is 4 hours.</p>
 			<p>
-				<a href="fr_event_create.php" class="btn btn-primary">Add Event</a>
+				<?php if($_SESSION['fr_person_title']=='Administrator')
+					echo '<a href="fr_event_create.php" class="btn btn-primary">Add Shift</a>';
+				?>
 				<a href="logout.php" class="btn btn-warning">Logout</a> &nbsp;&nbsp;&nbsp;
-				<a href="fr_persons.php">Volunteers</a> &nbsp;
-				<a href="fr_events.php">Events</a> &nbsp;
-				<a href="fr_assignments.php">Assignments</a>
+				<?php if($_SESSION['fr_person_title']=='Administrator')
+					echo '<a href="fr_persons.php">Volunteers</a> &nbsp;';
+				?>
+				<a href="fr_events.php">Shifts</a> &nbsp;
+				<?php if($_SESSION['fr_person_title']=='Administrator')
+					echo '<a href="fr_assignments.php">AllShifts</a>&nbsp;';
+				?>
+				<a href="fr_assignments.php?id=<?php echo $sessionid; ?>">MyShifts</a>&nbsp;
 			</p>
 			
-			<table class="table table-striped table-bordered" style="background-color: lightgrey !important";>
+			<table class="table table-striped table-bordered" style="background-color: lightgrey !important">
 				<thead>
 					<tr>
 						<th>Date</th>
@@ -58,11 +67,13 @@ if(!isset($_SESSION["fr_person_id"])){ // if "user" not set,
 							echo '<td>'. Functions::timeAmPm($row['event_time']) . '</td>';
 							echo '<td>'. $row['event_location'] . '</td>';
 							if ($row['countAssigns']==0)
-								echo '<td>UNSTAFFED - '. $row['event_description'] . '</td>';
+								echo '<td>'. $row['event_description'] . ' - UNSTAFFED </td>';
 							else
 								echo '<td>'. $row['event_description'] . '</td>';
 							echo '<td width=250>';
 							echo '<a class="btn" href="fr_event_read.php?id='.$row['id'].'">Details</a> &nbsp;';
+							if ($_SESSION['fr_person_title']=='Volunteer' )
+								echo '<a class="btn btn-primary" href="fr_event_read.php?id='.$row['id'].'">Volunteer</a> &nbsp;';
 							if ($_SESSION['fr_person_title']=='Administrator' )
 								echo '<a class="btn btn-success" href="fr_event_update.php?id='.$row['id'].'">Update</a>&nbsp;';
 							if ($_SESSION['fr_person_title']=='Administrator' 

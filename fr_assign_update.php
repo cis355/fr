@@ -23,12 +23,10 @@ if ( !empty($_POST)) { // if $_POST filled then process the form
 	// initialize user input validation variables
 	$personError = null;
 	$eventError = null;
-	$commentsError = null;
 	
 	// initialize $_POST variables
 	$person = $_POST['person_id'];    // same as HTML name= attribute in put box
 	$event = $_POST['event_id'];
-	$comments = $_POST['comments'];	
 	
 	// validate user input
 	$valid = true;
@@ -40,17 +38,13 @@ if ( !empty($_POST)) { // if $_POST filled then process the form
 		$eventError = 'Please choose an event';
 		$valid = false;
 	} 
-	if (empty($comments)) {
-		$commentsError = 'Please enter Comments or task to be performed';
-		$valid = false;
-	}
 		
 	if ($valid) { // if valid user input update the database
 		$pdo = Database::connect();
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$sql = "UPDATE fr_assignments set assign_per_id = ?, assign_event_id = ?, assign_comments = ? WHERE id = ?";
+		$sql = "UPDATE fr_assignments set assign_per_id = ?, assign_event_id = ? WHERE id = ?";
 		$q = $pdo->prepare($sql);
-		$q->execute(array($person,$event,$comments,$id));
+		$q->execute(array($person,$event,$id));
 		Database::disconnect();
 		header("Location: fr_assignments.php");
 	}
@@ -63,7 +57,6 @@ if ( !empty($_POST)) { // if $_POST filled then process the form
 	$data = $q->fetch(PDO::FETCH_ASSOC);
 	$person = $data['assign_per_id'];
 	$event = $data['assign_event_id'];
-	$comments = $data['assign_comments'];
 	Database::disconnect();
 }
 ?>
@@ -125,16 +118,6 @@ if ( !empty($_POST)) { // if $_POST filled then process the form
 							echo "</select>";
 							Database::disconnect();
 						?>
-					</div>	<!-- end div: class="controls" -->
-				</div> <!-- end div class="control-group" -->
-								  
-				<div class="control-group <?php echo !empty($commentsError)?'error':'';?>">
-					<label class="control-label">Comments/Task</label>
-					<div class="controls">
-						<input name="comments" type="text"  placeholder="Comments" value="<?php echo !empty($comments)?$comments:'';?>">
-						<?php if (!empty($commentsError)): ?>
-							<span class="help-inline"><?php echo $commentsError;?></span>
-						<?php endif; ?>
 					</div>	<!-- end div: class="controls" -->
 				</div> <!-- end div class="control-group" -->
 

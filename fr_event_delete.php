@@ -56,7 +56,7 @@ else { // otherwise, pre-populate fields to show data to be deleted
 		<div class="span10 offset1">
 		
 			<div class="row">
-				<h3>Delete Event</h3>
+				<h3>Delete Shift</h3>
 			</div>
 			
 			<form class="form-horizontal" action="fr_event_delete.php" method="post">
@@ -109,7 +109,7 @@ else { // otherwise, pre-populate fields to show data to be deleted
 				</div>
 				
 			<div class="row">
-				<h4>Volunteers Assigned to This Event</h4>
+				<h4>Volunteers Assigned to This Shift</h4>
 			</div>
 			
 			<?php

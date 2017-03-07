@@ -91,7 +91,7 @@ if ( !empty($_POST)) { // if $_POST filled then process the form
 		<div class="span10 offset1">
 		
 			<div class="row">
-				<h3>Update Event Details</h3>
+				<h3>Update Shift Details</h3>
 			</div>
 	
 			<form class="form-horizontal" action="fr_event_update.php?id=<?php echo $id?>" method="post">
