@@ -48,6 +48,7 @@ if ( !empty($_POST)) { // if $_POST filled then process the form
     <meta charset="utf-8">
     <link   href="css/bootstrap.min.css" rel="stylesheet">
     <script src="js/bootstrap.min.js"></script>
+	<link rel="icon" href="../cardinal_logo.png" type="image/png" />
 </head>
 
 <body>
@@ -56,7 +57,7 @@ if ( !empty($_POST)) { // if $_POST filled then process the form
 		<div class="span10 offset1">
 		
 			<div class="row">
-				<h3>Login</h3>
+				<h3>Volunteer Login</h3>
 			</div>
 	
 			<form class="form-horizontal" action="login.php" method="post">
@@ -78,7 +79,7 @@ if ( !empty($_POST)) { // if $_POST filled then process the form
 				<div class="form-actions">
 					<button type="submit" class="btn btn-success">Sign in</button>
 					&nbsp; &nbsp;
-					<a class="btn btn-primary" href="fr_per_create2.php">Join</a>
+					<a class="btn btn-primary" href="fr_per_create2.php">Join (New Volunteer)</a>
 				</div>
 				
 			</form>
