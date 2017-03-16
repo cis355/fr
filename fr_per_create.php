@@ -60,7 +60,7 @@ if ( !empty($_POST)) { // if not first time through
 		$valid = false;
 	} 
 	$pdo = Database:connect();
-	$sql = 'SELECT email FROM fr_persons';
+	$sql = 'SELECT * FROM fr_persons';
 	foreach ($pdo->query($sql) as $row) {
 		if($email == $row['email']){
 			$emailError = 'Email address already in use!';
