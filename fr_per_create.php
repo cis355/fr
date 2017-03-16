@@ -58,7 +58,17 @@ if ( !empty($_POST)) { // if not first time through
 	} else if ( !filter_var($email,FILTER_VALIDATE_EMAIL) ) {
 		$emailError = 'Please enter a valid Email Address';
 		$valid = false;
+	} 
+	$pdo = Database:connect();
+	$sql = 'SELECT * FROM fr_persons';
+	foreach ($pdo->query($sql) as $row) {
+		if($email == $row['email']){
+			$emailError = 'Email address already in use!';
+			$valid = false;
+		}
 	}
+	Database::disconnect();
+	
 	if (empty($mobile)) {
 		$mobileError = 'Please enter Mobile Number (or "none")';
 		$valid = false;
