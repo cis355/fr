@@ -19,7 +19,7 @@ $sessionid = $_SESSION['fr_person_id'];
     <meta charset="utf-8">
     <link   href="css/bootstrap.min.css" rel="stylesheet">
     <script src="js/bootstrap.min.js"></script>
-	<link rel="icon" href="../cardinal_logo.png" type="image/png" />
+	<link rel="icon" href="cardinal_logo.png" type="image/png" />
 </head>
 
 <body style="background-color: pink !important";>
