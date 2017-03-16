@@ -72,7 +72,7 @@ if ( !empty($_POST)) { // if $_POST filled then process the form
 				<div class="control-group">
 					<label class="control-label">Password</label>
 					<div class="controls">
-						<input name="password" type="password" placeholder="robot" required>
+						<input name="password" type="password" placeholder="password" required>
 					</div>	
 				</div> 
 

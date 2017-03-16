@@ -164,7 +164,7 @@ if ( !empty($_POST)) { // if not first time through
 				<div class="control-group <?php echo !empty($passwordError)?'error':'';?>">
 					<label class="control-label">Password</label>
 					<div class="controls">
-						<input name="password" type="text"  placeholder="robot" value="<?php echo !empty($password)?$password:'';?>">
+						<input name="password" type="text"  placeholder="password" value="<?php echo !empty($password)?$password:'';?>">
 						<?php if (!empty($passwordError)): ?>
 							<span class="help-inline"><?php echo $passwordError;?></span>
 						<?php endif;?>

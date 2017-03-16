@@ -95,9 +95,17 @@ Database::disconnect();
 				$pdo = Database::connect();
 				$sql = "SELECT * FROM fr_assignments, fr_persons WHERE assign_per_id = fr_persons.id AND assign_event_id = " . $data['id'] . ' ORDER BY lname ASC, fname ASC';
 				$countrows = 0;
-				foreach ($pdo->query($sql) as $row) {
-					echo $row['lname'] . ', ' . $row['fname'] . ' - ' . $row['mobile'] . '<br />';
+				if($_SESSION['fr_person_title']=='Administrator') {
+					foreach ($pdo->query($sql) as $row) {
+						echo $row['lname'] . ', ' . $row['fname'] . ' - ' . $row['mobile'] . '<br />';
 					$countrows++;
+					}
+				}
+				else {
+					foreach ($pdo->query($sql) as $row) {
+						echo $row['lname'] . ', ' . $row['fname'] . ' - ' . '<br />';
+					$countrows++;
+					}
 				}
 				if ($countrows == 0) echo 'none.';
 			?>
