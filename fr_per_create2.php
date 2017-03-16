@@ -60,15 +60,19 @@ if ( !empty($_POST)) { // if not first time through
 		$emailError = 'Please enter a valid Email Address';
 		$valid = false;
 	}
-	$pdo = Database:connect();
-	$sql = 'SELECT * FROM fr_persons';
-	foreach ($pdo->query($sql) as $row) {
-		if($email == $row['email']){
-			$emailError = 'Email address already in use!';
+
+	$pdo = Database::connect();
+	$sql = "SELECT * FROM fr_persons";
+	foreach($pdo->query($sql) as $row) {
+
+		if($email == $row['email']) {
+			$emailError = 'Email has already been registered!';
 			$valid = false;
 		}
 	}
 	Database::disconnect();
+	
+	
 	if (empty($mobile)) {
 		$mobileError = 'Please enter Mobile Number (or "none")';
 		$valid = false;
