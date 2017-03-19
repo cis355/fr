@@ -77,6 +77,10 @@ if ( !empty($_POST)) { // if not first time through
 		$mobileError = 'Please enter Mobile Number (or "none")';
 		$valid = false;
 	}
+	if(!preg_match("/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/", $mobile)) {
+		$mobileError = 'Please write Mobile Number in form 000-000-0000';
+		$valid = false;
+	}
 	if (empty($password)) {
 		$passwordError = 'Please enter valid Password';
 		$valid = false;
