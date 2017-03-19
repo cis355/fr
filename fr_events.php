@@ -12,6 +12,7 @@ if(!isset($_SESSION["fr_person_id"])){ // if "user" not set,
 	exit;
 }
 $sessionid = $_SESSION['fr_person_id'];
+include 'functions.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,7 +25,10 @@ $sessionid = $_SESSION['fr_person_id'];
 
 <body style="background-color: pink !important";>
     <div class="container">
-	
+		  <?php 
+			//gets logo
+			functions::logoDisplay2();
+		?>
 		<div class="row">
 			<h3>Shifts</h3>
 		</div>
@@ -59,7 +63,6 @@ $sessionid = $_SESSION['fr_person_id'];
 				<tbody>
 					<?php 
 						include '../database/database.php';
-						include 'functions.php';
 						$pdo = Database::connect();
 						$sql = 'SELECT `fr_events`.*, SUM(case when assign_per_id ='. $_SESSION['fr_person_id'] .' then 1 else 0 end) AS sumAssigns, COUNT(`fr_assignments`.assign_event_id) AS countAssigns FROM `fr_events` LEFT OUTER JOIN `fr_assignments` ON (`fr_events`.id=`fr_assignments`.assign_event_id) GROUP BY `fr_events`.id ORDER BY `fr_events`.event_date ASC, `fr_events`.event_time ASC';
 						foreach ($pdo->query($sql) as $row) {

@@ -52,7 +52,10 @@ else { // otherwise, pre-populate fields to show data to be deleted
 
 <body>
     <div class="container">
-    	
+    	  <?php
+
+			Functions::logoDisplay();
+		?>
 		<div class="row">
 			<h3>Delete Volunteer</h3>
 		</div>

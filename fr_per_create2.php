@@ -125,9 +125,12 @@ if ( !empty($_POST)) { // if not first time through
 
 <body>
     <div class="container">
-    
+
 		<div class="span10 offset1">
-		
+			<?php
+				require 'functions.php';
+				Functions::logoDisplay2();
+			?>
 			<div class="row">
 				<h3>Add New Volunteer</h3>
 			</div>

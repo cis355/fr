@@ -13,6 +13,7 @@ if(!isset($_SESSION["fr_person_id"])){ // if "user" not set,
 }
 
 require '../database/database.php';
+require 'functions.php';
 
 if ( !empty($_POST)) { // if not first time through
 
@@ -71,7 +72,10 @@ if ( !empty($_POST)) { // if not first time through
 
 <body>
     <div class="container">
-    
+		<?php 
+			//gets logo
+			functions::logoDisplay();
+		?>	
 		<div class="span10 offset1">
 		
 			<div class="row">

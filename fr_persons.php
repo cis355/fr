@@ -24,6 +24,11 @@ $sessionid = $_SESSION['fr_person_id'];
 
 <body style="background-color: lightblue !important";>
     <div class="container">
+		<?php 
+			//gets logo
+			require 'functions.php';
+			functions::logoDisplay2();
+		?>
 		<div class="row">
 			<h3>Volunteers</h3>
 		</div>

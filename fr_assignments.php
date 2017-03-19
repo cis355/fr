@@ -30,6 +30,12 @@ $sessionid = $_SESSION['fr_person_id'];
 <body>
     <div class="container">
 	
+		
+		<?php 
+		//gets logo
+			include 'functions.php';
+			functions::logoDisplay2();
+		?>
 		<div class="row">
 			<h3><?php if($id) echo 'My'; ?>Shifts</h3>
 		</div>
@@ -68,7 +74,7 @@ $sessionid = $_SESSION['fr_person_id'];
 				<tbody>
 				<?php 
 					include '../database/database.php';
-					include 'functions.php';
+					//include 'functions.php';
 					$pdo = Database::connect();
 					
 					if($id) 

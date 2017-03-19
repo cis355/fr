@@ -38,7 +38,9 @@ Database::disconnect();
 
 	<body>
 		<div class="container">
-		
+			<?php
+				Functions::logoDisplay2();
+			?>
 			<div class="row">
 				<h3>View Volunteer Details</h3>
 			</div>

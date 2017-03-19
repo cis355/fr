@@ -13,7 +13,7 @@ if(!isset($_SESSION["fr_person_id"])){ // if "user" not set,
 }
 
 require '../database/database.php';
-// require 'functions.php';
+require 'functions.php';
 
 $id = $_GET['id'];
 
@@ -88,7 +88,10 @@ if ( !empty($_POST)) { // if $_POST filled then process the form
 
 <body>
     <div class="container">
-    
+		<?php 
+			//gets logo
+			functions::logoDisplay();
+		?>	
 		<div class="span10 offset1">
 		
 			<div class="row">

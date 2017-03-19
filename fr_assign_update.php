@@ -73,7 +73,10 @@ if ( !empty($_POST)) { // if $_POST filled then process the form
 
 <body>
     <div class="container">
-    
+        <?php 
+			//gets logo
+			functions::logoDisplay();
+		?>
 		<div class="span10 offset1">
 		
 			<div class="row">

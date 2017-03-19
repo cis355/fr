@@ -68,7 +68,6 @@ if ( !empty($_POST)) {
     <div class="container">
     
 		<div class="span10 offset1">
-		
 			<div class="row">
 				<h3>Assign a Volunteer to an Event</h3>
 			</div>
@@ -134,7 +133,10 @@ if ( !empty($_POST)) {
 			</form>
 			
 		</div> <!-- end div: class="span10 offset1" -->
-				
+		<?php 
+			//gets logo
+			functions::logoDisplay();
+		?>	
     </div> <!-- end div: class="container" -->
 
   </body>

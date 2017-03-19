@@ -69,7 +69,10 @@ else { // otherwise, pre-populate fields to show data to be deleted
 
 <body>
     <div class="container">
-    
+		<?php 
+			//gets logo
+			functions::logoDisplay();
+		?>	
 		<div class="span10 offset1">
 		
 			<div class="row">
@@ -119,7 +122,7 @@ else { // otherwise, pre-populate fields to show data to be deleted
 			</div> <!-- end div: class="form-horizontal" -->
 			
 		</div> <!-- end div: class="span10 offset1" -->
-				
+		
     </div> <!-- end div: class="container" -->
 	
 </body>

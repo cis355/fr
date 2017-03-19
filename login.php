@@ -53,7 +53,7 @@ if ( !empty($_POST)) { // if $_POST filled then process the form
 
 <body>
     <div class="container">
-    
+
 		<div class="span10 offset1">
 		
 			<div class="row">
