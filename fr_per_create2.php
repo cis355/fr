@@ -72,9 +72,18 @@ if ( !empty($_POST)) { // if not first time through
 	}
 	Database::disconnect();
 	
+	// email must contain only lower case letters
+	if (strcmp(strtolower($email),$email)!=0) {
+		$emailError = 'email address can contain only lower case letters';
+		$valid = false;
+	}
 	
 	if (empty($mobile)) {
 		$mobileError = 'Please enter Mobile Number (or "none")';
+		$valid = false;
+	}
+	if(!preg_match("/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/", $mobile)) {
+		$mobileError = 'Please write Mobile Number in form 000-000-0000';
 		$valid = false;
 	}
 	if (empty($password)) {
@@ -180,7 +189,7 @@ if ( !empty($_POST)) { // if not first time through
 				<div class="control-group <?php echo !empty($passwordError)?'error':'';?>">
 					<label class="control-label">Password</label>
 					<div class="controls">
-						<input name="password" type="text"  placeholder="password" value="<?php echo !empty($password)?$password:'';?>">
+						<input id="password" name="password" type="text"  placeholder="password" value="<?php echo !empty($password)?$password:'';?>">
 						<?php if (!empty($passwordError)): ?>
 							<span class="help-inline"><?php echo $passwordError;?></span>
 						<?php endif;?>

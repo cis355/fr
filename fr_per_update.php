@@ -55,7 +55,7 @@ if ( !empty($_POST)) { // if $_POST filled then process the form
 		$lnameError = 'Please enter Last Name';
 		$valid = false;
 	}
-	// do not allow 2 records with same email address!
+
 	if (empty($email)) {
 		$emailError = 'Please enter valid Email Address (REQUIRED)';
 		$valid = false;
@@ -63,8 +63,19 @@ if ( !empty($_POST)) { // if $_POST filled then process the form
 		$emailError = 'Please enter a valid Email Address';
 		$valid = false;
 	}
+
+	// email must contain only lower case letters
+	if (strcmp(strtolower($email),$email)!=0) {
+		$emailError = 'email address can contain only lower case letters';
+		$valid = false;
+	}
+
 	if (empty($mobile)) {
 		$mobileError = 'Please enter Mobile Number (or "none")';
+		$valid = false;
+	}
+	if(!preg_match("/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/", $mobile)) {
+		$mobileError = 'Please write Mobile Number in form 000-000-0000';
 		$valid = false;
 	}
 	if (empty($password)) {
@@ -186,7 +197,7 @@ if ( !empty($_POST)) { // if $_POST filled then process the form
 				<div class="control-group <?php echo !empty($passwordError)?'error':'';?>">
 					<label class="control-label">Password</label>
 					<div class="controls">
-						<input name="password" type="text"  placeholder="Password" value="<?php echo !empty($password)?$password:'';?>">
+						<input id="password" name="password" type="text"  placeholder="Password" value="<?php echo !empty($password)?$password:'';?>">
 						<?php if (!empty($passwordError)): ?>
 							<span class="help-inline"><?php echo $passwordError;?></span>
 						<?php endif;?>

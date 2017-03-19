@@ -57,6 +57,10 @@ if ( !empty($_POST)) { // if $_POST filled then process the form
 		<div class="span10 offset1">
 		
 			<div class="row">
+				<img src="svsu_fr_logo.png" />
+			</div>
+		
+			<div class="row">
 				<h3>Volunteer Login</h3>
 			</div>
 	
@@ -65,7 +69,7 @@ if ( !empty($_POST)) { // if $_POST filled then process the form
 				<div class="control-group">
 					<label class="control-label">Username (Email)</label>
 					<div class="controls">
-						<input name="username" type="text"  placeholder="me@email.com" required>
+						<input name="username" type="text"  placeholder="me@email.com (all lower case)" required>
 					</div>	<!-- end div: class="controls" -->
 				</div> <!-- end div class="control-group" -->
 				
