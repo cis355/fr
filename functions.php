@@ -40,13 +40,13 @@ class Functions {
 	//logo css added to the bootstrap css
 	public function logoDisplay() {
 		echo '<div> ';
-		echo '<img src="img/svsulogo.png" class="logo" alt="SVSU logo"/>';
+		echo '<img src="img/svsulogo.png" width="50%" class="logo" alt="SVSU logo"/>';
 		echo '</div>';
 	}
 	
-		public function logoDisplay2() {
+	public function logoDisplay2() {
 		echo '<div> ';
-		echo '<img src="img/svsulogo.png" class="logo2" alt="SVSU logo"/>';
+		echo '<img src="img/svsulogo.png" width="50%" class="logo2" alt="SVSU logo"/>';
 		echo '</div>';
 	}
 } // end class: Functions
