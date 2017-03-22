@@ -104,6 +104,7 @@ if ( !empty($_POST)) { // if not first time through
 			$filetype = null;
 			$filesize = null;
 			$filecontent = null;
+			$pictureError = 'improper file type';
 			$valid=false;
 			
 		}
@@ -223,6 +224,7 @@ if ( !empty($_POST)) { // if not first time through
 					<div class="controls">
 						<input type="hidden" name="MAX_FILE_SIZE" value="16000000">
 						<input name="userfile" type="file" id="userfile">
+						
 					</div>
 				</div>
 			  
