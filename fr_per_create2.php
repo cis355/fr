@@ -95,7 +95,19 @@ if ( !empty($_POST)) { // if not first time through
 		$valid = false;
 	}
 	// restrict file types for upload
-
+	$types = array('image/jpeg','image/gif','image/png');
+	if($filesize > 0) {
+		if(in_array($_FILES['userfile']['type'], $types)) {
+		}
+		else {
+			$filename = null;
+			$filetype = null;
+			$filesize = null;
+			$filecontent = null;
+			$valid=false;
+			
+		}
+	}
 	// insert data
 	if ($valid) 
 	{
@@ -189,7 +201,7 @@ if ( !empty($_POST)) { // if not first time through
 				<div class="control-group <?php echo !empty($passwordError)?'error':'';?>">
 					<label class="control-label">Password</label>
 					<div class="controls">
-						<input id="password" name="password" type="text"  placeholder="password" value="<?php echo !empty($password)?$password:'';?>">
+						<input id="password" name="password" type="password"  placeholder="password" value="<?php echo !empty($password)?$password:'';?>">
 						<?php if (!empty($passwordError)): ?>
 							<span class="help-inline"><?php echo $passwordError;?></span>
 						<?php endif;?>
