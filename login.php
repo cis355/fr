@@ -32,6 +32,9 @@ if ( !empty($_POST)) { // if $_POST filled then process the form
 		$_SESSION['fr_person_title'] = $data['title'];
 		Database::disconnect();
 		header("Location: fr_assignments.php?id=$sessionid ");
+		// javascript below is necessary for system to work on github
+		echo "<script type='text/javascript'> document.location = 'fr_assignments.php'; </script>";
+		exit();
 	}
 	else { // otherwise go to login error page
 		Database::disconnect();
