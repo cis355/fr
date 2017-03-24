@@ -87,6 +87,7 @@ $sessionid = $_SESSION['fr_person_id'];
 					?>
 				</tbody>
 			</table>
+			
     	</div>
     </div> <!-- /container -->
   </body>
