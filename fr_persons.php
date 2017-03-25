@@ -59,12 +59,13 @@ $sessionid = $_SESSION['fr_person_id'];
 						include '../database/database.php';
 						$pdo = Database::connect();
 						$sql = 'SELECT `fr_persons`.*, COUNT(`fr_assignments`.assign_per_id) AS countAssigns FROM `fr_persons` LEFT OUTER JOIN `fr_assignments` ON (`fr_persons`.id=`fr_assignments`.assign_per_id) GROUP BY `fr_persons`.id ORDER BY `fr_persons`.lname ASC, `fr_persons`.fname ASC';
+						//$sql = 'SELECT * FROM fr_persons ORDER BY `fr_persons`.lname ASC, `fr_persons`.fname ASC';
 						foreach ($pdo->query($sql) as $row) {
 							echo '<tr>';
 							if ($row['countAssigns'] == 0)
-								echo '<td>'. trim($row['lname']) . ', ' . trim($row['fname']) . ' (' . substr($row['title'], 0, 1) . ')'. ' - UNASSIGNED</td>';
+								echo '<td>'. trim($row['lname']) . ', ' . trim($row['fname']) . ' (' . substr($row['title'], 0, 1) . ') '.$row[0]. ' - UNASSIGNED</td>';
 							else
-								echo '<td>'. trim($row['lname']) . ', ' . trim($row['fname']) . ' (' . substr($row['title'], 0, 1) . ')'. '</td>';
+								echo '<td>'. trim($row['lname']) . ', ' . trim($row['fname']) . ' (' . substr($row['title'], 0, 1) . ') '.$row[0]. '</td>';
 							echo '<td>'. $row['email'] . '</td>';
 							echo '<td>'. $row['mobile'] . '</td>';
 							echo '<td width=250>';

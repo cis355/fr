@@ -31,6 +31,7 @@ if ( !empty($_POST)) { // if not first time through
 	$email = $_POST['email'];
 	$mobile = $_POST['mobile'];
 	$password = $_POST['password'];
+	$passwordhash = MD5($password);
 	$title =  $_POST['title'];
 	$picture = $_POST['picture']; // not used
 	
@@ -103,7 +104,7 @@ if ( !empty($_POST)) { // if not first time through
 		$sql = "INSERT INTO fr_persons (fname,lname,email,mobile,password,title,
 		filename,filesize,filetype,filecontent) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		$q = $pdo->prepare($sql);
-		$q->execute(array($fname,$lname,$email,$mobile,$password,$title,
+		$q->execute(array($fname,$lname,$email,$mobile,$passwordhash,$title,
 		$fileName,$fileSize,$fileType,$content));
 		Database::disconnect();
 		header("Location: fr_persons.php");

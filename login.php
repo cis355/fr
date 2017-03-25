@@ -16,13 +16,16 @@ if ( !empty($_POST)) { // if $_POST filled then process the form
 	// initialize $_POST variables
 	$username = $_POST['username']; // username is email address
 	$password = $_POST['password'];
+	$passwordhash = MD5($password);
+	// echo $password . " " . $passwordhash; exit();
+	// robot 87b7cb79481f317bde90c116cf36084b
 		
 	// verify the username/password
 	$pdo = Database::connect();
 	$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	$sql = "SELECT * FROM fr_persons WHERE email = ? AND password = ? LIMIT 1";
 	$q = $pdo->prepare($sql);
-	$q->execute(array($username,$password));
+	$q->execute(array($username,$passwordhash));
 	$data = $q->fetch(PDO::FETCH_ASSOC);
 	
 	if($data) { // if successful login set session variables
@@ -62,24 +65,31 @@ if ( !empty($_POST)) { // if $_POST filled then process the form
 			<div class="row">
 				<img src="svsu_fr_logo.png" />
 			</div>
-		
+			
+			<!--
+			<div class="row">
+				<br />
+				<p style="color: red;">System temporarily unavailable.</p>
+			</div>
+			-->
+
 			<div class="row">
 				<h3>Volunteer Login</h3>
 			</div>
-	
+
 			<form class="form-horizontal" action="login.php" method="post">
 								  
 				<div class="control-group">
 					<label class="control-label">Username (Email)</label>
 					<div class="controls">
-						<input name="username" type="text"  placeholder="me@email.com (all lower case)" required>
-					</div>	<!-- end div: class="controls" -->
-				</div> <!-- end div class="control-group" -->
+						<input name="username" type="text"  placeholder="me@email.com (all lower case)" required> 
+					</div>	
+				</div> 
 				
 				<div class="control-group">
 					<label class="control-label">Password</label>
 					<div class="controls">
-						<input name="password" type="password" placeholder="password" required>
+						<input name="password" type="password" placeholder="NOT your SVSU password" required> 
 					</div>	
 				</div> 
 
@@ -89,8 +99,11 @@ if ( !empty($_POST)) { // if $_POST filled then process the form
 					<a class="btn btn-primary" href="fr_per_create2.php">Join (New Volunteer)</a>
 				</div>
 				
+				<p>This website is for people who are helping out during April's big FIRST Robotics event. Thanks for volunteering! This is not an official SVSU site so please DO NOT use your SVSU password.</p>
+				
 			</form>
-			
+
+
 		</div> <!-- end div: class="span10 offset1" -->
 				
     </div> <!-- end div: class="container" -->

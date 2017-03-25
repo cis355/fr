@@ -32,6 +32,7 @@ if ( !empty($_POST)) { // if not first time through
 	$email = $_POST['email'];
 	$mobile = $_POST['mobile'];
 	$password = $_POST['password'];
+	$passwordhash = MD5($password);
 	$title =  $_POST['title'];
 	$picture = $_POST['picture']; // not used
 	
@@ -118,13 +119,13 @@ if ( !empty($_POST)) { // if not first time through
 		$sql = "INSERT INTO fr_persons (fname,lname,email,mobile,password,title,
 		filename,filesize,filetype,filecontent) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		$q = $pdo->prepare($sql);
-		$q->execute(array($fname,$lname,$email,$mobile,$password,$title,
+		$q->execute(array($fname,$lname,$email,$mobile,$passwordhash,$title,
 		$fileName,$fileSize,$fileType,$content));
 		
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$sql = "SELECT * FROM fr_persons WHERE email = ? AND password = ? LIMIT 1";
 		$q = $pdo->prepare($sql);
-		$q->execute(array($email,$password));
+		$q->execute(array($email,$passwordhash));
 		$data = $q->fetch(PDO::FETCH_ASSOC);
 		
 		$_SESSION['fr_person_id'] = $data['id'];
