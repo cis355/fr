@@ -63,9 +63,9 @@ $sessionid = $_SESSION['fr_person_id'];
 						foreach ($pdo->query($sql) as $row) {
 							echo '<tr>';
 							if ($row['countAssigns'] == 0)
-								echo '<td>'. trim($row['lname']) . ', ' . trim($row['fname']) . ' (' . substr($row['title'], 0, 1) . ') '.$row[0]. ' - UNASSIGNED</td>';
+								echo '<td>'. trim($row['lname']) . ', ' . trim($row['fname']) . ' (' . substr($row['title'], 0, 1) . ') '.' - UNASSIGNED</td>';
 							else
-								echo '<td>'. trim($row['lname']) . ', ' . trim($row['fname']) . ' (' . substr($row['title'], 0, 1) . ') '.$row[0]. '</td>';
+								echo '<td>'. trim($row['lname']) . ', ' . trim($row['fname']) . ' (' . substr($row['title'], 0, 1) . ') - '.$row['countAssigns']. ' events</td>';
 							echo '<td>'. $row['email'] . '</td>';
 							echo '<td>'. $row['mobile'] . '</td>';
 							echo '<td width=250>';
