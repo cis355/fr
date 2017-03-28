@@ -1,4 +1,5 @@
 <?php
+exit(); // do nothing
 $to      = 'george@corser.com';
 $subject = 'svsu/fr registration';
 $message = 'click this link to confirm';

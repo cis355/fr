@@ -73,8 +73,9 @@ include 'functions.php';
 							if ($row['countAssigns']==0)
 								echo '<td>'. $row['event_description'] . ' - UNSTAFFED </td>';
 							else
-								echo '<td>'. $row['event_description'] . '</td>';
-							echo '<td width=250>';
+								echo '<td>'. $row['event_description'] . ' (' . $row['countAssigns']. ' volunteers)' . '</td>';
+							//echo '<td width=250>';
+							echo '<td>';
 							echo '<a class="btn" href="fr_event_read.php?id='.$row['id'].'">Details</a> &nbsp;';
 							if ($_SESSION['fr_person_title']=='Volunteer' )
 								echo '<a class="btn btn-primary" href="fr_event_read.php?id='.$row['id'].'">Volunteer</a> &nbsp;';
