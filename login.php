@@ -102,7 +102,7 @@ if ( !empty($_POST)) { // if $_POST filled then process the form
 				<p><strong>Dear All</strong>: Thanks so much for volunteering! The April 2017 FIRST Robotics event at SVSU will be awesome with your help!</p>
 				<p><strong>Dear NEW Volunteers</strong>: Please register by clicking the blue "Join" button above.</p>
 				<p><strong>Dear Registered Volunteers</strong>: To log in, use your email address and password, and click the green "sign in" button.</p>
-				<p><strong>Regarding passwords</strong>: Please create a new unique password for this site. <strong><em><span style="color: red;">Please do not use your regular SVSU password.</span><em></strong> If you forgot your password, to RE-SET your password for this site email "re-set password" to: George Corser, gpcorser@svsu.edu.</p>
+				<p><strong>Regarding passwords</strong>: Please create a new unique password for this site. <strong><em><span style="color: red;">Please do not use your regular SVSU password.</span><em></strong> If you forgot your password, to RE-SET your password for this site email "re-set password" to: Alissa Myers, aamyers1@svsu.edu.</p>
 				
 				<br />
 
