@@ -1,0 +1,2 @@
+Run these scripts in SQL to generate your files.
+Alternatively, you can have no files and the code should create the empty tables.
