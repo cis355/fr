@@ -211,7 +211,7 @@ if ( !empty($_POST)) { // if $_POST filled then process the form
 							<?php 
 							# editor is a volunteer only allow volunteer option
 							if (0==strcmp($_SESSION['fr_person_title'],'Volunteer')) echo '<option selected value="Volunteer" >Volunteer</option>';
-							else if($title==Volunteer) echo 
+							else if($title=="Volunteer") echo 
 							'<option selected value="Volunteer" >Volunteer</option><option value="Administrator" >Administrator</option>';
 							else echo
 							'<option value="Volunteer">Volunteer</option>
